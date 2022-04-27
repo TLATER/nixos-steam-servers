@@ -11,7 +11,6 @@ in {
       '';
     };
 
-    # TODO: Use
     name = mkOption {
       type = types.nullOr types.str;
       default = null;
@@ -37,15 +36,16 @@ in {
       example = "211820";
     };
 
-    # TODO: Use
-    requiresSignIn = mkOption {
-      type = bool;
+    steamUser = mkOption {
+      type = types.string;
       description = ''
-        Whether the game server requires a signed-in user.
+        Name of the steam user to be used for authentication.
 
-        Turn this off whenever possible; if in doubt, experiment - it will be
-        quite obvious when this fails, and is harmless otherwise.
+        Defaults to `anonymous`. Only change this for servers which *require*
+        sign-in, and if you do, use an account created with
+        https://steamcommunity.com/dev/managegameservers.
       '';
+      default = "anonymous";
     };
 
     # TODO: Use
