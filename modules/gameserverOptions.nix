@@ -4,7 +4,7 @@ in {
   options = {
     # TODO: Use
     autoStart = mkOption {
-      type = bool;
+      type = types.bool;
       default = false;
       description = ''
         Automatically start the game server after the network comes up.
@@ -37,7 +37,7 @@ in {
     };
 
     steamUser = mkOption {
-      type = types.string;
+      type = types.str;
       description = ''
         Name of the steam user to be used for authentication.
 
@@ -86,9 +86,9 @@ in {
         before it can function. Also see the example.
 
         If additional credentials are required, expose these using
-        `systemd.services.steamServers-${name}.serviceConfig.LoadCredential`. See
-        `man systemd.exec` for more information regarding systemd's credential
-        system.
+        `systemd.services.steamServers-''${name}.serviceConfig.LoadCredential`.
+        See `man systemd.exec` for more information regarding systemd's
+        credential system.
       '';
       example = ''
         cp ''${configuration} storage/starbound_server.config
