@@ -7,12 +7,11 @@
   inherit (lib) mkOption types literalExpression;
   inherit (lib.attrsets) mapAttrs' nameValuePair;
   inherit (lib.strings) concatStringsSep;
-  gameserverOptions = import ./gameserverOptions.nix {inherit lib;};
 in {
   options.steam-servers = {
     servers = mkOption {
       default = {};
-      type = types.attrsOf (types.submodule gameserverOptions);
+      type = types.attrsOf (types.submodule (import ./gameserverOptions.nix));
       description = "Steam game servers to manage.";
       example = literalExpression ''
         {
