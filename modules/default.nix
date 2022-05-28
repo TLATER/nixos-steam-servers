@@ -49,8 +49,8 @@ in {
             after = ["network.target"];
 
             # Don't want to interrupt an ongoing download, and since
-            # this is a oneshot anyway the next invocation will be the
-            # new one anyway.
+            # this is a oneshot the next invocation will be the new
+            # one anyway.
             restartIfChanged = false;
 
             environment = {
@@ -73,8 +73,8 @@ in {
               # Security settings
               DynamicUser = true;
 
-              # Since steam uses namespaces to enable bundling it shared
-              # libraries, we need to allow namespaces.
+              # Since steam uses namespaces to enable bundling its
+              # shared libraries, we need to allow name spaces.
               # RestrictNamespaces = true;
 
               PrivateUsers = true;
