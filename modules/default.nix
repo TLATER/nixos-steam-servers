@@ -45,6 +45,11 @@ in {
             (import ./update-service.nix {
               inherit pkgs lib name appId steamUser steamUserPasswordFile;
             })
+
+            # Actual game server services
+            (import ./game-service.nix {
+              inherit lib startScript;
+            })
           ]
       )
       config.steam-servers.servers;

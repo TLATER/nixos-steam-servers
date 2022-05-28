@@ -113,7 +113,7 @@ in {
     };
 
     startScript = mkOption {
-      type = types.path;
+      type = types.lines;
       description = ''
         Script used to launch the server after all trivial installation/setup
         has occurred.
