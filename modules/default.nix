@@ -9,7 +9,7 @@
   inherit (lib.strings) concatStringsSep;
   gameserverOptions = import ./gameserverOptions.nix {inherit lib;};
 in {
-  options.services.steam-servers = {
+  options.steam-servers = {
     servers = mkOption {
       default = {};
       type = types.attrsOf (types.submodule gameserverOptions);
@@ -115,6 +115,6 @@ in {
             };
           }
       )
-      config.services.steam-servers.servers;
+      config.steam-servers.servers;
   };
 }
