@@ -72,6 +72,23 @@ in {
       default = "anonymous";
     };
 
+    steamUserPasswordFile = mkOption {
+      type = types.path;
+      description = ''
+        Path to a file containing your steam password, used in
+        conjunction with `steamUser`. Make sure you read its
+        documentation too.
+
+        Do *not* set this to a path created using `pkgs.writeText`, or
+        a raw path read by nix (e.g. ./steam-password). Both will end
+        up in the nix store and be world-readable.
+
+        Instead, either copy the file to the correct location by hand
+        once it's running, or use something like sops-nix to safely
+        deploy it in an encrypted fashion.
+      '';
+    };
+
     # TODO: Use
     extraSteamCommands = mkOption {
       type = types.nullOr types.lines;
