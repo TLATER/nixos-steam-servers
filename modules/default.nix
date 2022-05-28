@@ -7,6 +7,7 @@
   inherit (builtins) readFile foldl';
   inherit (lib) mkOption types literalExpression;
   inherit (lib.attrsets) mapAttrs';
+  inherit (lib.debug) traceVal;
 in {
   options.steam-servers = {
     servers = mkOption {
@@ -31,27 +32,33 @@ in {
   };
 
   config = {
-    systemd.services =
-      mapAttrs' (
-        n: config: let
-          inherit (config) appId steamUser steamUserPasswordFile;
-          name =
+    systemd.services = let
+      mapServers = f:
+        mapAttrs' (name: config:
+          f (
             if config.name != null
             then config.name
-            else n;
-        in
-          foldl' (a: b: a // b) {} [
-            # Update services
-            (import ./update-service.nix {
-              inherit pkgs lib name appId steamUser steamUserPasswordFile;
-            })
+            else name
+          )
+          config)
+        config.steam-servers.servers;
+    in
+      foldl' (a: b: a // b) {} [
+        (mapServers (
+          name: config:
+            import ./update-service.nix {
+              inherit pkgs lib name;
+              inherit (config) appId steamUser steamUserPasswordFile;
+            }
+        ))
 
-            # Actual game server services
-            (import ./game-service.nix {
-              inherit lib startScript;
-            })
-          ]
-      )
-      config.steam-servers.servers;
+        (mapServers (
+          name: config:
+            import ./game-service.nix {
+              inherit lib name;
+              inherit (config) startScript;
+            }
+        ))
+      ];
   };
 }
