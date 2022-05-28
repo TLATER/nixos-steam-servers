@@ -4,9 +4,12 @@
   pkgs,
   ...
 }: let
+  inherit (builtins) readFile;
   inherit (lib) mkOption types literalExpression;
   inherit (lib.attrsets) mapAttrs' nameValuePair;
   inherit (lib.strings) concatStringsSep;
+  inherit (pkgs) writeShellScriptBin;
+  update-server = writeShellScriptBin "update-server" (readFile ../scripts/update-server.sh);
 in {
   options.steam-servers = {
     servers = mkOption {
@@ -62,7 +65,7 @@ in {
 
             serviceConfig = {
               Type = "oneshot";
-              ExecStart = ../scripts/update-server.sh;
+              ExecStart = "${update-server}/bin/update-server";
 
               WorkingDirectory = "/var/lib/${name}";
               StateDirectory = "${name}";
