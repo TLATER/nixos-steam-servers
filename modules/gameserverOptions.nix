@@ -33,7 +33,7 @@ in {
         App ID of the game. Look for the number in the URL of the game's store
         page.
       '';
-      example = "211820";
+      example = 211820;
     };
 
     steamUser = mkOption {
@@ -42,8 +42,32 @@ in {
         Name of the steam user to be used for authentication.
 
         Defaults to `anonymous`. Only change this for servers which *require*
-        sign-in, and if you do, use an account created with
-        https://steamcommunity.com/dev/managegameservers.
+        sign-in.
+
+        Note: If you do use your own account, you will likely need to
+              disable steam guard to reasonably be able to use
+              this. Valve, like most games companies, is *terrible* at
+              security, especially if game server hosting is involved.
+              Complaints should go to them.
+
+              This module takes care not to write passwords in plain
+              text anywhere they could become public on your system,
+              however we do not control `steamcmd`, so we don't know
+              if it may start logging or caching passwords at any
+              point. To be on the safe side, treat the game's storage
+              directory in `/var/lib/<name>` as if it contained your
+              steam password in plain text.
+
+              Some people recommend creating throwaway steam accounts
+              for each game. This of course is better if you care
+              about your account security, but it does require buying
+              the games again - and would reward Valve specifically
+              for being incompetent. Just use `anonymous` where
+              possible and email Valve or join steam discussions if
+              you are as annoyed as I am otherwise.
+
+              Something like https://github.com/Weilbyte/steamcmd-2fa
+              may be an option in the future.
       '';
       default = "anonymous";
     };
@@ -86,7 +110,7 @@ in {
         before it can function. Also see the example.
 
         If additional credentials are required, expose these using
-        `systemd.services.steamServers-''${name}.serviceConfig.LoadCredential`.
+        `systemd.services.update-''${name}.serviceConfig.LoadCredential`.
         See `man systemd.exec` for more information regarding systemd's
         credential system.
       '';

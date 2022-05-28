@@ -19,8 +19,8 @@ in {
       example = literalExpression ''
         {
           starbound = {
-            app_id = "211820";
-            start = '''
+            appId = 211820;
+            startScript = '''
               cp ''${configuration} storage/starbound_server.config
               cd linux
               patchelf --set-interpreter ''${stdenv.cc.bintools.dynamicLinker} \
